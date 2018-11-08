@@ -4,6 +4,7 @@
 * Impliment Scene Selection
 * Create Title Screen
 * Create Game Over Screen
+* Go from Game Over Screen to Title screen when Space is pressed
 * Create Snake that starts at 3 length (Snake head is bright green body dark green)
 * Move snake with Arrows
 * Kill Snake on walls
@@ -17,9 +18,11 @@
 * Rotting Apples Decay into Poison at 10 Steps (~1 sec) 110-100
 * Poison Apples Decay away at 100 Steps (~10 sec) 100-0
 * Show Score somewhere maybe the title bar
+* [Bug] Body no longer causes death
 
 ### Next Commit
-* [Bug] Body no longer causes death
+* Create Pause Screen
+* Pause on escape
 
 # Testing
 * Impliment Golden Apples Probably random time from half a second to 3 seconds to change to normal apple gives 2 segments
@@ -29,9 +32,6 @@
 # Doing
 
 # Todo
-* Pause on escape
-* Go from Game Over Screen to Title screen when Space is pressed
-* Create Pause Screen
 * Add sound to snake eat
 * Add sound to snake die
 * Add music
@@ -43,3 +43,5 @@
 * Make sure the start length is set to 3 long
 
 # Wishlist
+* Add a Controls Screen
+* Add a Rules Screen

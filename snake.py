@@ -20,6 +20,7 @@ gameState = -1
 lastGameState = -1
 
 resMainMenu = pygame.image.load("Start.png")
+resPauseMenu = pygame.image.load("Pause.png")
 resEndMenu = pygame.image.load("End.png")
 
 # Globals
@@ -29,7 +30,7 @@ gridHeight = 50
 gridWidth = 50
 startPosX = 20
 startPosY = 20
-startLength = 300
+startLength = 3
 appleMinPlacementDistance = 6
 
 # Start Snake Class
@@ -323,6 +324,11 @@ while runGame:
         # Clear Screen
         win.fill((0,0,0))
 
+        # Check for pause input
+        if(keysDown[pygame.K_ESCAPE]):
+            # Pause the game
+            nextGameState = 2
+
         # Apply Input with basic sanitization
         if(((keysDown[pygame.K_UP] and keysDown[pygame.K_DOWN]) or (keysDown[pygame.K_RIGHT] and keysDown[pygame.K_LEFT])) == False):
             # Not trying to go both ways
@@ -359,11 +365,18 @@ while runGame:
         pygame.display.update()
 
     if (gameState == 2):
-        # Draw Pause Screen
-
-        # Violently Clear Screen for Debug
-        win.fill((0,204,255))
-        pygame.display.update()
+        # Draw Pause Screen only on transition into mode for efficency
+        if(gameState != lastGameState):
+            # Clear Screen
+            win.fill((0,0,0))
+            # Draw Menu
+            win.blit(resPauseMenu, (0,0))
+            # Update
+            pygame.display.update()
+            
+        # Check for esc input
+        if(keysDown[pygame.K_ESCAPE]):
+            nextGameState = 1
         
     if (gameState == 3):
         # Draw Gameover Screen only on transition into mode for efficency
