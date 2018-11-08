@@ -1,11 +1,12 @@
 # Done
+* Create Game Window
 
 ### Next Commit
-* Create Game Window
 
 # Testing
 
 # Doing
+* Exit game window on F1 for quick debug
 
 # Todo
 * Create Title Screen
@@ -24,3 +25,4 @@
 * Add sound to snake eat
 * Add sound to snake die
 * Add music
+* Dont Exit game window on F1 anymore
