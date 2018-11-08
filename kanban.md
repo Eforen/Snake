@@ -9,8 +9,6 @@
 * Kill Snake on walls
 * Go from Title Screen to gameplay when any arrow is pressed and point the snake in that direction
 * Kill Snake on Self
-
-### Next Commit
 * Create Apple Objects that will "feed" the snake
 * Use Waighted apple gen
 * When Head hits apple inc the snake length
@@ -18,6 +16,10 @@
 * Normal Apples Decay into Rotting at 100 Steps (~10 sec) 210-100
 * Rotting Apples Decay into Poison at 10 Steps (~1 sec) 110-100
 * Poison Apples Decay away at 100 Steps (~10 sec) 100-0
+* Show Score somewhere maybe the title bar
+
+### Next Commit
+* [Bug] Body no longer causes death
 
 # Testing
 * Impliment Golden Apples Probably random time from half a second to 3 seconds to change to normal apple gives 2 segments
@@ -27,8 +29,6 @@
 # Doing
 
 # Todo
-* [Bug] Body no longer causes death
-* Show Score somewhere maybe the title bar
 * Pause on escape
 * Go from Game Over Screen to Title screen when Space is pressed
 * Create Pause Screen

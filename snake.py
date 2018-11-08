@@ -29,8 +29,7 @@ gridHeight = 50
 gridWidth = 50
 startPosX = 20
 startPosY = 20
-startLength = 3
-theSnake = None
+startLength = 300
 appleMinPlacementDistance = 6
 
 # Start Snake Class
@@ -77,7 +76,7 @@ class snake(object):
         # Make sure the snake did not bite itself
         for segment in self.body:
             if(segment[0] == self.x and segment[1] == self.y):
-                self.alive == False
+                self.alive = False
         
         # Add new body segment where head currently is
         self.body.insert(0, [self.x, self.y])
@@ -100,6 +99,7 @@ class snake(object):
         pygame.draw.rect(surface, (47, 160, 53), (self.x * cellSizeX-3, self.y * cellSizeY - 3, cellSizeX + 3, cellSizeY + 3))
         pygame.draw.rect(surface, (0, 127, 19), (self.x * cellSizeX-2, self.y * cellSizeY - 2, cellSizeX + 2, cellSizeY + 2))
         
+theSnake = snake(0,0,3)
 # End Snake Class
 
 # Start Apple Logic
