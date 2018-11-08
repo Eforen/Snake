@@ -7,16 +7,16 @@
 * Create Snake that starts at 3 length (Snake head is bright green body dark green)
 * Move snake with Arrows
 * Kill Snake on walls
+* Go from Title Screen to gameplay when any arrow is pressed and point the snake in that direction
 
 ### Next Commit
-* Go from Title Screen to gameplay when any arrow is pressed and point the snake in that direction
+* Kill Snake on Self
 
 # Testing
 
 # Doing
 
 # Todo
-* Kill Snake on Self
 * Create Apple Objects that will "feed" the snake
 * When Head hits apple inc the snake length
 * Show Score somewhere maybe the title bar
@@ -28,6 +28,9 @@
 * Add music
 * Dont Exit game window on F1 anymore
 * Make end screen semi transparent so player can see the end state of the game
+
+# Final Version
+* Make sure the start length is set to 3 long
 
 # Wishlist
 * Impliment Poison Apple

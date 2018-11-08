@@ -72,7 +72,7 @@ class snake(object):
         # Make sure the snake did not bite itself
         for segment in self.body:
             if(segment[0] == self.x and segment[1] == self.y):
-                self.alive == False
+                self.alive = False
         
         # Add new body segment where head currently is
         self.body.insert(0, [self.x, self.y])
