@@ -30,20 +30,20 @@
 * [Bug] Sometimes Gold apples show up that never decay and don't score
 * [Bug] Apples dont clear on new game
 * Tuning
-
-### Next Commit
-
-# Testing
-
-# Doing
 * Dont Exit game window on F1 anymore
 * Add a Controls Screen
 * Add a Rules Screen
 * Make sure the start length is set to 3 long
+
+### Next Commit
+* Make end screen semi transparent so player can see the end state of the game
+
+# Testing
+
+# Doing
 
 # Todo
 
 # Final Version
 
 # Wishlist
-* Make end screen semi transparent so player can see the end state of the game

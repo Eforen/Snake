@@ -22,7 +22,7 @@ prevGameMode = 0
 
 resMainMenu = pygame.image.load("StartC.png")
 resPauseMenu = pygame.image.load("Pause.png")
-resEndMenu = pygame.image.load("End.png")
+resEndMenu = pygame.image.load("EndT.png")
 resRulesMenu = pygame.image.load("Rules.png")
 resControlsMenu = pygame.image.load("Controls.png")
 
@@ -447,7 +447,7 @@ while runGame:
         # Draw Gameover Screen only on transition into mode for efficency
         if(gameState != lastGameState):
             # Clear Screen
-            win.fill((0,0,0))
+            # win.fill((0,0,0))
             # Draw Menu
             win.blit(resEndMenu, (0,0))
             # Update
