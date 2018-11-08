@@ -1,7 +1,11 @@
 # Done
 
-# Doing
+### Next Commit
 * Create Game Window
+
+# Testing
+
+# Doing
 
 # Todo
 * Create Title Screen
