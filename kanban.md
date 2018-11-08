@@ -34,9 +34,9 @@
 * Add a Controls Screen
 * Add a Rules Screen
 * Make sure the start length is set to 3 long
+* Make end screen semi transparent so player can see the end state of the game
 
 ### Next Commit
-* Make end screen semi transparent so player can see the end state of the game
 
 # Testing
 
