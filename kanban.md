@@ -19,10 +19,13 @@
 * Poison Apples Decay away at 100 Steps (~10 sec) 100-0
 * Show Score somewhere maybe the title bar
 * [Bug] Body no longer causes death
-
-### Next Commit
 * Create Pause Screen
 * Pause on escape
+
+### Next Commit
+* Add sound to snake eat
+* Add sound to snake die
+* Add music
 
 # Testing
 * Impliment Golden Apples Probably random time from half a second to 3 seconds to change to normal apple gives 2 segments
@@ -32,9 +35,6 @@
 # Doing
 
 # Todo
-* Add sound to snake eat
-* Add sound to snake die
-* Add music
 * Dont Exit game window on F1 anymore
 * Make end screen semi transparent so player can see the end state of the game
 * [Bug] Sometimes Gold apples show up that never decay and don't score

@@ -118,6 +118,13 @@ resAppleNormal = pygame.image.load("Apple10.png")
 resAppleRotting = pygame.image.load("Rotting10.png")
 resApplePoison = pygame.image.load("Poison10.png")
 
+resSoundAppleEat = pygame.mixer.Sound('AppleCoin.wav')
+resSoundAppleEatGold = pygame.mixer.Sound("AppleGoldCoin.wav")
+resSoundAppleEatRot = pygame.mixer.Sound("Rotting.wav")
+resSoundDie = pygame.mixer.Sound("Dead.wav")
+
+resMusic = pygame.mixer.music.load("384468.mp3")
+
 def UpdateApples(applesState):
     EatApples(applesState)
     # Be nice to the player and decay the apples after the eat so an apple does not change a frame before its eaten
@@ -138,15 +145,21 @@ def EatApples(applesState):
 
             elif(applesState['apples'][i][2] <= 110):
                 # else if rotting don't kill but don't grow
+                if(soundsOn):
+                    resSoundAppleEatRot.play()
                 pass
 
             elif(applesState['apples'][i][2] <= 210):
                 # else if normal grow one
                 theSnake.length = theSnake.length + 1
+                if(soundsOn):
+                    resSoundAppleEat.play()
             else:
                 # else if gold grow 3 and get 2 bonus points (Gold are worth 5 points)
                 theSnake.length = theSnake.length + 3
                 theSnake.bonusPoints = theSnake.bonusPoints + 2
+                if(soundsOn):
+                    resSoundAppleEatGold.play()
             
             applesState['apples'].pop(i)
             break
@@ -267,6 +280,14 @@ def DedupApples(applesState, i):
 targetAmountOfApplesLength = 0
 targetAmountOfApples = 0
 
+# Sound State Controls
+musicOn = True
+soundsOn = True
+
+# Input Cache
+lastKeysDown = pygame.key.get_pressed()
+keysDown = pygame.key.get_pressed()
+
 # Main Game loop
 runGame = True
 while runGame:
@@ -276,11 +297,37 @@ while runGame:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             runGame = False
-        
+    
+    lastKeysDown = keysDown
     keysDown = pygame.key.get_pressed()
 
+    # Global Controls
     if(keysDown[pygame.K_F1]):
         runGame = False # For debuging drop out of loop and die
+
+    if(keysDown[pygame.K_m] == True and lastKeysDown[pygame.K_m] == False):
+        if(musicOn):
+            pygame.mixer.music.fadeout(1)
+            musicOn = False
+        else:
+            pygame.mixer.music.play(-1)
+            musicOn = True
+    
+    if(keysDown[pygame.K_s] == True and lastKeysDown[pygame.K_s] == False):
+        if(soundsOn):
+            resSoundAppleEat.fadeout(1)
+            resSoundAppleEatGold.fadeout(1)
+            resSoundAppleEatRot.fadeout(1)
+            resSoundDie.fadeout(1)
+            soundsOn = False
+        else:
+            soundsOn = True
+
+    # Game States
+    if (gameState == -1):
+        # Run once a startup
+        pygame.mixer.music.play(-1)
+
 
     if (gameState == 0):
         # Draw Title Screen and init only on transition into mode for efficency
@@ -357,6 +404,8 @@ while runGame:
         # If dead go to game over
         if(theSnake.alive == False):
             nextGameState = 3
+            if(soundsOn):
+                resSoundDie.play()
 
         # Update Title with Score
         pygame.display.set_caption("Snake Game: Playing Score: "+str(theSnake.length + theSnake.bonusPoints)+"("+ str(theSnake.length) +"|"+ str(theSnake.bonusPoints) +")")
