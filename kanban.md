@@ -2,11 +2,11 @@
 * Create Game Window
 
 ### Next Commit
+* Exit game window on F1 for quick debug
 
 # Testing
 
 # Doing
-* Exit game window on F1 for quick debug
 
 # Todo
 * Create Title Screen
