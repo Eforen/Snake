@@ -3,11 +3,12 @@
 * Exit game window on F1 for quick debug
 
 ### Next Commit
+* Impliment Scene Selection
+* Create Title Screen
 
 # Testing
 
 # Doing
-* Create Title Screen
 
 # Todo
 * Create Game Over Screen
