@@ -4,18 +4,18 @@
 * Impliment Scene Selection
 * Create Title Screen
 * Create Game Over Screen
-
-### Next Commit
 * Create Snake that starts at 3 length (Snake head is bright green body dark green)
 * Move snake with Arrows
 * Kill Snake on walls
+
+### Next Commit
+* Go from Title Screen to gameplay when any arrow is pressed and point the snake in that direction
 
 # Testing
 
 # Doing
 
 # Todo
-* Go from Title Screen to gameplay when any arrow is pressed and point the snake in that direction
 * Kill Snake on Self
 * Create Apple Objects that will "feed" the snake
 * When Head hits apple inc the snake length

@@ -26,6 +26,7 @@ gridHeight = 50
 gridWidth = 50
 startPosX = 20
 startPosY = 20
+startLength = 3
 theSnake = None
 
 # Start Snake Class
@@ -94,7 +95,6 @@ class snake(object):
         pygame.draw.rect(surface, (47, 160, 53), (self.x * cellSizeX-3, self.y * cellSizeY - 3, cellSizeX + 3, cellSizeY + 3))
         pygame.draw.rect(surface, (0, 127, 19), (self.x * cellSizeX-2, self.y * cellSizeY - 2, cellSizeX + 2, cellSizeY + 2))
         
-        
 # End Snake Class
 
 
@@ -114,7 +114,7 @@ while runGame:
         runGame = False # For debuging drop out of loop and die
 
     if (gameState == 0):
-        # Draw Title Screen only on transition into mode for efficency
+        # Draw Title Screen and init only on transition into mode for efficency
         if(gameState != lastGameState):
             # Clear Screen
             win.fill((0,0,0))
@@ -122,9 +122,22 @@ while runGame:
             win.blit(resMainMenu, (0,0))
             # Update
             pygame.display.update()
+            
+            # Setup New Snake
+            theSnake = snake(startPosX, startPosY, startLength)
         
         # Check for arrow input
-        if(keysDown[pygame.K_UP] or keysDown[pygame.K_RIGHT] or keysDown[pygame.K_DOWN] or keysDown[pygame.K_LEFT] ):
+        if(keysDown[pygame.K_UP]):
+            theSnake.heading = 0
+            nextGameState = 1
+        if(keysDown[pygame.K_RIGHT]):
+            theSnake.heading = 1
+            nextGameState = 1
+        if(keysDown[pygame.K_DOWN]):
+            theSnake.heading = 2
+            nextGameState = 1
+        if(keysDown[pygame.K_LEFT]):
+            theSnake.heading = 3
             nextGameState = 1
 
     if (gameState == 1):
@@ -132,11 +145,6 @@ while runGame:
 
         # Clear Screen
         win.fill((0,0,0))
-        
-        # Init on transition into mode from start screen
-        if(lastGameState == 0):
-            # Setup New Snake
-            theSnake = snake(startPosX, startPosY, 3)
 
         # Apply Input with basic sanitization
         if(((keysDown[pygame.K_UP] and keysDown[pygame.K_DOWN]) or (keysDown[pygame.K_RIGHT] and keysDown[pygame.K_LEFT])) == False):
