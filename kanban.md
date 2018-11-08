@@ -1,17 +1,17 @@
 # Done
 * Create Game Window
 * Exit game window on F1 for quick debug
-
-### Next Commit
 * Impliment Scene Selection
 * Create Title Screen
+
+### Next Commit
+* Create Game Over Screen
 
 # Testing
 
 # Doing
 
 # Todo
-* Create Game Over Screen
 * Go from Title Screen to gameplay when any arrow is pressed and point the snake in that direction
 * Create Snake that starts at 3 length (Snake head is bright green body dark green)
 * Move snake with Arrows

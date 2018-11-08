@@ -17,6 +17,7 @@ gameState = -1
 lastGameState = -1
 
 resMainMenu = pygame.image.load("Start.png")
+resEndMenu = pygame.image.load("End.png")
 
 # Main Game loop
 runGame = True
@@ -45,7 +46,7 @@ while runGame:
         
         # Check for arrow input
         if(keysDown[pygame.K_UP] or keysDown[pygame.K_RIGHT] or keysDown[pygame.K_DOWN] or keysDown[pygame.K_LEFT] ):
-            nextGameState = 1
+            nextGameState = 3
 
     if (gameState == 1):
         # Do Gameplay Logic
@@ -63,11 +64,18 @@ while runGame:
         pygame.display.update()
         
     if (gameState == 3):
-        # Draw Gameover Screen
-
-        # Violently Clear Screen for Debug
-        win.fill((48,255,0))
-        pygame.display.update()
+        # Draw Gameover Screen only on transition into mode for efficency
+        if(gameState != lastGameState):
+            # Clear Screen
+            win.fill((0,0,0))
+            # Draw Menu
+            win.blit(resEndMenu, (0,0))
+            # Update
+            pygame.display.update()
+        
+        # Check for arrow input
+        if(keysDown[pygame.K_SPACE]):
+            nextGameState = 0
 
 
     # Last thing in loop
