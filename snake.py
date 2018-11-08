@@ -1,4 +1,7 @@
 import pygame
+import math
+import random
+
 pygame.init()
 
 win = pygame.display.set_mode((500, 500))
@@ -28,7 +31,6 @@ startPosX = 20
 startPosY = 20
 startLength = 3
 theSnake = None
-apples = []
 appleMinPlacementDistance = 6
 
 # Start Snake Class
@@ -101,54 +103,64 @@ class snake(object):
 # End Snake Class
 
 # Start Apple Logic
-# Apple Spec [X, Y, Vitality]
 
-resAppleGold = pygame.image.load("Gold.png")
-resAppleNormal = pygame.image.load("Apple.png")
-resAppleRotting = pygame.image.load("Rotting.png")
-resApplePoison = pygame.image.load("Poison.png")
+applesState = {
+    # Apple Spec [X, Y, Vitality]
+    'apples': [],
+    'availableApplesDefault': [5, 10, 50, 5],
+    'availableApples': None,
+    'totalAvailableApples': 0
+}
 
-def UpdateApples():
-    EatApples()
+resAppleGold = pygame.image.load("Gold10.png")
+resAppleNormal = pygame.image.load("Apple10.png")
+resAppleRotting = pygame.image.load("Rotting10.png")
+resApplePoison = pygame.image.load("Poison10.png")
+
+def UpdateApples(applesState):
+    EatApples(applesState)
     # Be nice to the player and decay the apples after the eat so an apple does not change a frame before its eaten
-    DecayApples()
+    DecayApples(applesState)
+    return
 
-def EatApples():
-    for i in range(len(apples)-1, 0):
-        if(apples[i][0] == theSnake.x and apples[i][1] == theSnake.y):
+def EatApples(applesState):
+    for i in range(len(applesState['apples'])-1, 0, -1):
+        if(applesState['apples'][i][0] == theSnake.x and applesState['apples'][i][1] == theSnake.y):
             #The snake ate the apple
-            if(apples[i][2] < 0):
+            if(applesState['apples'][i][2] < 0):
                 # invalid apple should never happen
                 pass
-            elif(apples[i][2] < 100):
+
+            elif(applesState['apples'][i][2] <= 100):
                 # if Poison kill
                 theSnake.alive = False
-                pass
-            elif(apples[i][2] < 110):
+
+            elif(applesState['apples'][i][2] <= 110):
                 # else if rotting don't kill but don't grow
                 pass
-            elif(apples[i][2] < 210):
+
+            elif(applesState['apples'][i][2] <= 210):
                 # else if normal grow one
                 theSnake.length = theSnake.length + 1
-                pass
             else:
                 # else if gold grow 3 and get 2 bonus points (Gold are worth 5 points)
                 theSnake.length = theSnake.length + 3
                 theSnake.bonusPoints = theSnake.bonusPoints + 2
-                pass
             
-            apples.pop(i)
+            applesState['apples'].pop(i)
             break
+    return
 
-def DecayApples():
-    for i in range(len(apples)-1, 0):
-        if(apple[i][2] < 1):
-            apples.pop(i)
+def DecayApples(applesState):
+    for i in range(len(applesState['apples'])-1, 0, -1):
+        if(applesState['apples'][i][2] < 1):
+            applesState['apples'].pop(i)
         else:
-            apple[i][2] = apple[i][2] - 1
+            applesState['apples'][i][2] = applesState['apples'][i][2] - 1
+    return
 
-def RenderApples(surface):
-    for apple in apples:
+def RenderApples(applesState, surface):
+    for apple in applesState['apples']:
         if(apple[2] < 0):
             pass
         elif(apple[2] < 100):
@@ -159,94 +171,100 @@ def RenderApples(surface):
             surface.blit(resAppleNormal, (apple[0] * cellSizeX, apple[1] * cellSizeY))
         else:
             surface.blit(resAppleGold, (apple[0] * cellSizeX, apple[1] * cellSizeY))
+    return
 
 # Start Apple Gen Logic
 
 # Spec [Poison, Rotting, Normal, Gold]
-availableApplesDefault = [5, 10, 50, 5]
-availableApples = [0,0,0,0]
 
-def makeNewApple():
+def makeNewApple(applesState):
     # Insure apple waights are not empty and if they are then make new copy of the dificulty setting
-    totalAvailableApples = availableApples[0] + availableApples[1] + availableApples[2] + availableApples[3]
-    if(totalAvailableApples <= 0):
-        availableApples = availableApplesDefault.copy()
-        totalAvailableApples = availableApples[0] + availableApples[1] + availableApples[2] + availableApples[3]
+    if(applesState['totalAvailableApples'] <= 0):
+        applesState['availableApples'] = applesState['availableApplesDefault'].copy()
+        applesState['totalAvailableApples'] = applesState['availableApples'][0] + applesState['availableApples'][1] + applesState['availableApples'][2] + applesState['availableApples'][3]
     
     # Calculate waighted apple
-    apple = random.randint(1, totalAvailableApples)
-    if(apple <= availableApples[0]):
+    apple = random.randint(1, applesState['totalAvailableApples'])
+    if(apple <= applesState['availableApples'][0]):
         # Poison Apple
-        availableApples[0] = availableApples[0] - 1
-        return makePoisonApple()
-    elif(apple <= availableApples[0] + availableApples[1]):
+        applesState['availableApples'][0] = applesState['availableApples'][0] - 1
+        applesState['totalAvailableApples'] = applesState['totalAvailableApples'] - 1
+        return makePoisonApple(applesState)
+    elif(apple <= applesState['availableApples'][0] + applesState['availableApples'][1]):
         # Rotting Apple
-        availableApples[1] = availableApples[1] - 1
-        return makeRottingApple()
-    elif(apple <= availableApples[0] + availableApples[1] + availableApples[2]):
+        applesState['availableApples'][1] = applesState['availableApples'][1] - 1
+        applesState['totalAvailableApples'] = applesState['totalAvailableApples'] - 1
+        return makeRottingApple(applesState)
+    elif(apple <= applesState['availableApples'][0] + applesState['availableApples'][1] + applesState['availableApples'][2]):
         # Normal Apple
-        availableApples[2] = availableApples[2] - 1
-        return makeNormalApple()
+        applesState['availableApples'][2] = applesState['availableApples'][2] - 1
+        applesState['totalAvailableApples'] = applesState['totalAvailableApples'] - 1
+        return makeNormalApple(applesState)
     else:
         # Gold Apple
-        availableApples[3] = availableApples[3] - 1
-        return makeGoldApple()
+        applesState['availableApples'][3] = applesState['availableApples'][3] - 1
+        applesState['totalAvailableApples'] = applesState['totalAvailableApples'] - 1
+        return makeGoldApple(applesState)
 
-def makePoisonApple():
-    apples.append([0,0, 100])
+def makePoisonApple(applesState):
+    applesState['apples'].append([0,0, 100])
     # Place Apple
     # Dedup
     # Return index for chaining
-    return Dedup(PlaceApple(len(apples) - 1))
+    return DedupApples(*PlaceApple(applesState, len(applesState['apples']) - 1))
     
-def makeRottingApple():
-    apples.append([0,0, 100])
+def makeRottingApple(applesState):
+    applesState['apples'].append([0,0, 110])
     # Place Apple
     # Dedup
     # Return index for chaining
-    return Dedup(PlaceApple(len(apples) - 1))
+    return DedupApples(*PlaceApple(applesState, len(applesState['apples']) - 1))
     
-def makeNormalApple():
-    apples.append([0,0, 100])
+def makeNormalApple(applesState):
+    applesState['apples'].append([0,0, 210])
     # Place Apple
     # Dedup
     # Return index for chaining
-    return Dedup(PlaceApple(len(apples) - 1))
+    return DedupApples(*PlaceApple(applesState, len(applesState['apples']) - 1))
     
-def makeGoldApple():
-    apples.append([0,0, 100])
+def makeGoldApple(applesState):
+    applesState['apples'].append([0,0, random.randint(215, 245)])
     # Place Apple
     # Dedup
     # Return index for chaining
-    return Dedup(PlaceApple(len(apples) - 1))
+    return DedupApples(*PlaceApple(applesState, len(applesState['apples']) - 1))
     
 
-def PlaceApple(i):
+def PlaceApple(applesState, i):
     # Move the apple to a pos we know is not valid
-    apple[i][0] = theSnake.x
-    apple[i][1] = theSnake.y
+    applesState['apples'][i][0] = theSnake.x
+    applesState['apples'][i][1] = theSnake.y
     
     # Place it well
-    while IsBadPlace(i):
-        apples[i][0] = random.randint(0, gridWidth - 1)
-        apples[i][1] = random.randint(0, gridHeight - 1)
+    while IsBadPlace(applesState, i):
+        applesState['apples'][i][0] = random.randint(0, gridWidth - 1)
+        applesState['apples'][i][1] = random.randint(0, gridHeight - 1)
 
     # Return index for chaining
-    return i
+    return applesState, i
 
 # Seprate function so that all the Placement Invalidation Logic can be put in the same place even though right now its just one check this gives options for expantion
-def IsBadPlace(i):
-    if(abs(apple[i][0] - theSnake.x) <= appleMinPlacementDistance and abs(apple[i][1] - theSnake.y) <= appleMinPlacementDistance):
+def IsBadPlace(applesState, i):
+    if(abs(applesState['apples'][i][0] - theSnake.x) <= appleMinPlacementDistance and abs(applesState['apples'][i][1] - theSnake.y) <= appleMinPlacementDistance):
         return True
     return False
 
-def DedupApple(i):
+def DedupApples(applesState, i):
     #TODO
     # Return index for chaining
-    return i
+    return applesState, i
 
 # End Apple Gen Logic
 # End Apple Logic
+
+# Calculation Cache
+targetAmountOfApplesLength = 0
+targetAmountOfApples = 0
 
 # Main Game loop
 runGame = True
@@ -292,6 +310,15 @@ while runGame:
 
     if (gameState == 1):
         # Gameplay State
+        # Make Apples
+        if(len(applesState['apples']) < targetAmountOfApples):
+            makeNewApple(applesState)
+
+        elif(theSnake.length > targetAmountOfApplesLength):
+            targetAmountOfApplesLength = theSnake.length
+            targetAmountOfApples = int(math.sqrt(targetAmountOfApplesLength * 5))
+            if(len(applesState['apples']) < targetAmountOfApples):
+                makeNewApple(applesState)
 
         # Clear Screen
         win.fill((0,0,0))
@@ -311,17 +338,14 @@ while runGame:
         # Actually Move
         theSnake.move()
 
-        # Make Apples
-        
+        # Update Apples
+        UpdateApples(applesState)
 
         # Draw Items
+        RenderApples(applesState, win)
 
         # Draw
         theSnake.draw(win)
-
-        # Check for Apple
-
-        # Check for Poison Apple
         
         # Check for Dead
         # If dead go to game over
@@ -329,6 +353,7 @@ while runGame:
             nextGameState = 3
 
         # Update Title with Score
+        pygame.display.set_caption("Snake Game: Playing Score: "+str(theSnake.length + theSnake.bonusPoints)+"("+ str(theSnake.length) +"|"+ str(theSnake.bonusPoints) +")")
 
         # Flush
         pygame.display.update()

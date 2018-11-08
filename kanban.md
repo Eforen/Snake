@@ -11,22 +11,23 @@
 * Kill Snake on Self
 
 ### Next Commit
-
-# Testing
+* Create Apple Objects that will "feed" the snake
+* Use Waighted apple gen
 * When Head hits apple inc the snake length
 * Impliment Poison Apple
 * Normal Apples Decay into Rotting at 100 Steps (~10 sec) 210-100
 * Rotting Apples Decay into Poison at 10 Steps (~1 sec) 110-100
 * Poison Apples Decay away at 100 Steps (~10 sec) 100-0
+
+# Testing
 * Impliment Golden Apples Probably random time from half a second to 3 seconds to change to normal apple gives 2 segments
 * Make golds worth 5 points not just the 3 they make you grow
 * Don't allow an apple to be placed closer to the head then 6 blocks
 
 # Doing
-* Create Apple Objects that will "feed" the snake
-* Use Waighted apple gen
 
 # Todo
+* [Bug] Body no longer causes death
 * Show Score somewhere maybe the title bar
 * Pause on escape
 * Go from Game Over Screen to Title screen when Space is pressed
@@ -36,6 +37,7 @@
 * Add music
 * Dont Exit game window on F1 anymore
 * Make end screen semi transparent so player can see the end state of the game
+* [Bug] Sometimes Gold apples show up that never decay and don't score
 
 # Final Version
 * Make sure the start length is set to 3 long
