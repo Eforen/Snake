@@ -27,23 +27,23 @@
 * Impliment Golden Apples Probably random time from half a second to 3 seconds to change to normal apple gives 2 segments
 * Make golds worth 5 points not just the 3 they make you grow
 * Don't allow an apple to be placed closer to the head then 6 blocks
-
-### Next Commit
 * [Bug] Sometimes Gold apples show up that never decay and don't score
 * [Bug] Apples dont clear on new game
+* Tuning
+
+### Next Commit
 
 # Testing
 
 # Doing
-* Tuning
-
-# Todo
 * Dont Exit game window on F1 anymore
-* Make end screen semi transparent so player can see the end state of the game
-
-# Final Version
-* Make sure the start length is set to 3 long
-
-# Wishlist
 * Add a Controls Screen
 * Add a Rules Screen
+* Make sure the start length is set to 3 long
+
+# Todo
+
+# Final Version
+
+# Wishlist
+* Make end screen semi transparent so player can see the end state of the game

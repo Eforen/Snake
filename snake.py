@@ -18,10 +18,13 @@ pygame.display.set_caption("Snake Game: Main Menu")
 nextGameState = 0
 gameState = -1
 lastGameState = -1
+prevGameMode = 0
 
-resMainMenu = pygame.image.load("Start.png")
+resMainMenu = pygame.image.load("StartC.png")
 resPauseMenu = pygame.image.load("Pause.png")
 resEndMenu = pygame.image.load("End.png")
+resRulesMenu = pygame.image.load("Rules.png")
+resControlsMenu = pygame.image.load("Controls.png")
 
 # Globals
 cellSizeX = 10
@@ -302,8 +305,16 @@ while runGame:
     keysDown = pygame.key.get_pressed()
 
     # Global Controls
-    if(keysDown[pygame.K_F1]):
-        runGame = False # For debuging drop out of loop and die
+    #if(keysDown[pygame.K_F1]):
+    #    runGame = False # For debuging drop out of loop and die
+    
+    if(keysDown[pygame.K_r] == True and lastKeysDown[pygame.K_r] == False and gameState != 4 and gameState != 5):
+        prevGameMode = gameState
+        nextGameState = 4
+    
+    if(keysDown[pygame.K_c] == True and lastKeysDown[pygame.K_c] == False and gameState != 4 and gameState != 5):
+        prevGameMode = gameState
+        nextGameState = 5
 
     if(keysDown[pygame.K_m] == True and lastKeysDown[pygame.K_m] == False):
         if(musicOn):
@@ -445,6 +456,34 @@ while runGame:
         # Check for arrow input
         if(keysDown[pygame.K_SPACE]):
             nextGameState = 0
+
+    if (gameState == 4):
+        # Draw Rules Screen only on transition into mode for efficency
+        if(gameState != lastGameState):
+            # Clear Screen
+            win.fill((0,0,0))
+            # Draw Menu
+            win.blit(resRulesMenu, (0,0))
+            # Update
+            pygame.display.update()
+            
+        # Check for esc input
+        if(keysDown[pygame.K_ESCAPE] or keysDown[pygame.K_r]):
+            nextGameState = prevGameMode
+
+    if (gameState == 5):
+        # Draw Controls Screen only on transition into mode for efficency
+        if(gameState != lastGameState):
+            # Clear Screen
+            win.fill((0,0,0))
+            # Draw Menu
+            win.blit(resControlsMenu, (0,0))
+            # Update
+            pygame.display.update()
+            
+        # Check for esc input
+        if(keysDown[pygame.K_ESCAPE] or keysDown[pygame.K_r]):
+            nextGameState = prevGameMode
 
 
     # Last thing in loop
