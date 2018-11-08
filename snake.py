@@ -108,7 +108,7 @@ theSnake = snake(0,0,3)
 applesState = {
     # Apple Spec [X, Y, Vitality]
     'apples': [],
-    'availableApplesDefault': [5, 10, 50, 5],
+    'availableApplesDefault': [1, 2, 15, 5],
     'availableApples': None,
     'totalAvailableApples': 0
 }
@@ -132,7 +132,7 @@ def UpdateApples(applesState):
     return
 
 def EatApples(applesState):
-    for i in range(len(applesState['apples'])-1, 0, -1):
+    for i in range(len(applesState['apples'])-1, -1, -1):
         if(applesState['apples'][i][0] == theSnake.x and applesState['apples'][i][1] == theSnake.y):
             #The snake ate the apple
             if(applesState['apples'][i][2] < 0):
@@ -151,13 +151,13 @@ def EatApples(applesState):
 
             elif(applesState['apples'][i][2] <= 210):
                 # else if normal grow one
-                theSnake.length = theSnake.length + 1
+                theSnake.length = theSnake.length + 3
                 if(soundsOn):
                     resSoundAppleEat.play()
             else:
                 # else if gold grow 3 and get 2 bonus points (Gold are worth 5 points)
-                theSnake.length = theSnake.length + 3
-                theSnake.bonusPoints = theSnake.bonusPoints + 2
+                theSnake.length = theSnake.length + 9
+                theSnake.bonusPoints = theSnake.bonusPoints + 5
                 if(soundsOn):
                     resSoundAppleEatGold.play()
             
@@ -166,7 +166,7 @@ def EatApples(applesState):
     return
 
 def DecayApples(applesState):
-    for i in range(len(applesState['apples'])-1, 0, -1):
+    for i in range(len(applesState['apples'])-1, -1, -1):
         if(applesState['apples'][i][2] < 1):
             applesState['apples'].pop(i)
         else:
@@ -181,7 +181,7 @@ def RenderApples(applesState, surface):
             surface.blit(resApplePoison, (apple[0] * cellSizeX, apple[1] * cellSizeY))
         elif(apple[2] < 110):
             surface.blit(resAppleRotting, (apple[0] * cellSizeX, apple[1] * cellSizeY))
-        elif(apple[2] < 210):
+        elif(apple[2] <= 210):
             surface.blit(resAppleNormal, (apple[0] * cellSizeX, apple[1] * cellSizeY))
         else:
             surface.blit(resAppleGold, (apple[0] * cellSizeX, apple[1] * cellSizeY))
@@ -242,7 +242,7 @@ def makeNormalApple(applesState):
     return DedupApples(*PlaceApple(applesState, len(applesState['apples']) - 1))
     
 def makeGoldApple(applesState):
-    applesState['apples'].append([0,0, random.randint(215, 245)])
+    applesState['apples'].append([0,0, random.randint(235, 275)])
     # Place Apple
     # Dedup
     # Return index for chaining
@@ -341,6 +341,11 @@ while runGame:
             
             # Setup New Snake
             theSnake = snake(startPosX, startPosY, startLength)
+
+            # Wipe The Board
+            applesState['apples'] = []
+            targetAmountOfApples = 0
+            targetAmountOfApplesLength = 0
         
         # Check for arrow input
         if(keysDown[pygame.K_UP]):
@@ -408,7 +413,7 @@ while runGame:
                 resSoundDie.play()
 
         # Update Title with Score
-        pygame.display.set_caption("Snake Game: Playing Score: "+str(theSnake.length + theSnake.bonusPoints)+"("+ str(theSnake.length) +"|"+ str(theSnake.bonusPoints) +")")
+        pygame.display.set_caption("Snake Game: Playing Score: "+str(theSnake.length + theSnake.bonusPoints)+" ( Len:"+ str(theSnake.length) +" | Bonus:"+ str(theSnake.bonusPoints) +" )")
 
         # Flush
         pygame.display.update()
